@@ -4,6 +4,10 @@
 ## Live Demo Link
 [Live Demo](https://shuffle-game.netlify.app/)
 
+## Mini Demo
+![shuffle](https://user-images.githubusercontent.com/43995830/153576838-62b87039-227d-4f23-9670-868228cace1c.gif)
+
+
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
 ## Available Scripts
