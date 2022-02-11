@@ -1,18 +1,22 @@
 import styled from 'styled-components';
 
 const Container = styled.div`
-  border: solid 5px red;
+  border: solid 2px blue;
   position: relative;
+  cursor: pointer;
+  border-radius: 5px;
 
   > div {
     > img:nth-of-type(1) {
       position: absolute;
       transform: rotateY(90deg);
+      transition: transform ease-out 0.5s 0.1s;
     }
 
     &.flipped {
       > img:nth-of-type(1) {
       transform: rotateY(0deg);
+      transition: transform ease-out 0.5s 0.1s;
     }
     }
   } 

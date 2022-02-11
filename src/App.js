@@ -1,14 +1,51 @@
 import { useState, useEffect } from 'react';
 import styled from 'styled-components';
 
-import './App.css';
 import Card from './components/Card';
 
-const List = styled.div`
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  gap: 10px 5px;
-  margin-top: 20px;
+const Container = styled.div`
+  text-align: center;
+  margin: 0 auto;
+  max-width: 65%;
+  background: #EFEFEF;
+
+  > div:nth-of-type(1) {
+    display:flex;
+    flex-direction: column;
+    justify-content: space-between;
+    background: #7e5588c7;
+    padding: 0 50px;
+    color: #fff;
+    border-radius: 2  px;
+
+    > div:nth-of-type(1) {
+      display:flex;
+      justify-content: space-between;
+      align-items: center;
+
+      > button {
+        border: none;
+        background: #fff;
+        padding: 12px;
+        font-family: 'Ubuntu';
+        cursor: pointer;
+        color: #371E43;
+        border-radius: 5px;
+
+        &:hover {
+          background: #371E43;
+          color: #fff;
+        }
+      }
+    }
+  }
+
+  > div:nth-of-type(2) {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 10px 5px;
+    margin-top: 20px;
+  }
 `;
 
 const magicCards = [
@@ -22,7 +59,8 @@ const magicCards = [
 
 const App = () => {
   const [cards, setCards] = useState([]);
-  const [turns, setTurns] = useState(0);
+  const [right, setRight] = useState(0);
+  const [wrong, setWrong] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
 
@@ -31,11 +69,16 @@ const App = () => {
       .sort(()=> Math.random() - 0.5)
       .map(card=> ({...card, id: Math.random()}))
     setCards(shuffledArr);
-    setTurns(0);
+    setRight(0);
+    setWrong(0);
   }
 
   const handleClick = (card) => {
-    choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
+    if(wrong>=10){
+      console.log('End game')
+    } else {
+      choiceOne ? setChoiceTwo(card) : setChoiceOne(card);
+    }
   }
 
   const resetChoice = () => {
@@ -51,20 +94,29 @@ const App = () => {
             return card.src === choiceOne.src ? { ...card, matched: true} : card;
           })
         ))
+        setRight(prevState=> prevState + 1 );
         resetChoice();
       }
       else {
-        resetChoice();
+        setWrong(prevState=> prevState + 1 );
+        setTimeout(() => resetChoice(), 1000)
       }
     }
-
-  }, [choiceOne, choiceTwo])
+    return () => clearTimeout(() => {})
+  }, [choiceOne, choiceTwo, setWrong])
 
   return (
-    <div className="App">
-      <h1>Shuffle Cards</h1>
-      <button onClick={() => shuffle()}>Shuffle</button>
-      <List>
+    <Container>
+      <div>
+        <div>
+          <h1>Shuffle Cards</h1>
+          <p>Correct: {right}</p>
+          <p>Wrong: {wrong}</p>
+          <button onClick={() => shuffle()}>{ wrong>=10 ? 'Restart Game' : 'New Game'}</button>
+        </div>
+        <div><p>You only get 10 wrongs before you can restart game</p></div>
+      </div>
+      <div>
         {cards.map(card => (
           <Card 
             key={card.id} 
@@ -73,8 +125,8 @@ const App = () => {
             flipped={ card===choiceOne || card===choiceTwo || card.matched }
           />
         ))}
-      </List>
-    </div>
+      </div>
+    </Container>
   );
 }
 
