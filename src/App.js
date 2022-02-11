@@ -61,6 +61,7 @@ const App = () => {
   const [cards, setCards] = useState([]);
   const [right, setRight] = useState(0);
   const [wrong, setWrong] = useState(0);
+  const [turns, setTurns] = useState(0);
   const [choiceOne, setChoiceOne] = useState(null);
   const [choiceTwo, setChoiceTwo] = useState(null);
 
@@ -71,6 +72,7 @@ const App = () => {
     setCards(shuffledArr);
     setRight(0);
     setWrong(0);
+    setTurns(0);
   }
 
   const handleClick = (card) => {
@@ -83,7 +85,8 @@ const App = () => {
 
   const resetChoice = () => {
     setChoiceOne(null);
-    setChoiceTwo(null)
+    setChoiceTwo(null);
+    setTurns(prevState=> prevState + 1)
   }
 
   useEffect(() => {
@@ -110,9 +113,10 @@ const App = () => {
       <div>
         <div>
           <h1>Shuffle Cards</h1>
-          <p>Correct: {right}</p>
-          <p>Wrong: {wrong}</p>
-          <button onClick={() => shuffle()}>{ wrong>=10 ? 'Restart Game' : 'New Game'}</button>
+          <p>Pairs Matched: {right}</p>
+          <p>Wrong Match: {wrong}</p>
+          <p>Total Moves: {turns}</p>
+          <button onClick={() => shuffle()}>{ cards.length===0 ? 'New Game' : wrong>=10 ? 'Restart Game' : 'End Game'}</button>
         </div>
         <div><p>You only get 10 wrongs before you can restart game</p></div>
       </div>
