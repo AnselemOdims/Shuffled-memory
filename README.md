@@ -1,7 +1,8 @@
 # Shuffled Memory
+> Shuffed Memory is a game that matches the images on cards. If the images are the same then it stays same, else it will disappear. It has a limit of wrong tries you can make. Built with React and Styled-Components.
 
 ## Live Demo Link
-[Live Demo]()
+[Live Demo](https://shuffle-game.netlify.app/)
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
 
